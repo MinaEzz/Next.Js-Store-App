@@ -1,5 +1,7 @@
 import Container from "../container/Container.component";
+import CartButton from "./cart-button/CartButton.component";
 import Logo from "./logo/Logo.component";
+import Searchbar from "./searchbar/Searchbar.component";
 
 export default function Navbar() {
   return (
@@ -8,10 +10,10 @@ export default function Navbar() {
         {/** LOGO */}
         <Logo />
         {/** SEARCHBAR */}
-        <div>SEARCHBAR</div>
+        <Searchbar />
         {/** CART - DARKMODE - LINKS DROPDOWN */}
         <div className="flex gap-4 items-center">
-          CART - DARKMODE - DROPDOWN
+          <CartButton />
         </div>
       </Container>
     </nav>
