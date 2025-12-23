@@ -2,6 +2,7 @@ import Container from "../container/Container.component";
 import CartButton from "./cart-button/CartButton.component";
 import Logo from "./logo/Logo.component";
 import Searchbar from "./searchbar/Searchbar.component";
+import ThemeDropdown from "./theme-dropdown/ThemeDropdown.component";
 
 export default function Navbar() {
   return (
@@ -14,6 +15,7 @@ export default function Navbar() {
         {/** CART - DARKMODE - LINKS DROPDOWN */}
         <div className="flex gap-4 items-center">
           <CartButton />
+          <ThemeDropdown />
         </div>
       </Container>
     </nav>

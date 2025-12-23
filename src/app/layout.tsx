@@ -3,6 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/common/navbar/Navbar.component";
 import Container from "@/components/common/container/Container.component";
+import RootProvider from "@/providers/RootProvider";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -21,10 +22,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistMono.className} antialiased`}>
-        <Navbar />
-        <Container className="py-20">{children}</Container>
+        <RootProvider>
+          <Navbar />
+
+          <Container className="py-20">{children}</Container>
+        </RootProvider>
       </body>
     </html>
   );
