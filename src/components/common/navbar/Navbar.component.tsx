@@ -1,5 +1,6 @@
 import Container from "../container/Container.component";
 import CartButton from "./cart-button/CartButton.component";
+import LinksDropdown from "./links-dropdown/LinksDropdown.component";
 import Logo from "./logo/Logo.component";
 import Searchbar from "./searchbar/Searchbar.component";
 import ThemeDropdown from "./theme-dropdown/ThemeDropdown.component";
@@ -12,10 +13,11 @@ export default function Navbar() {
         <Logo />
         {/** SEARCHBAR */}
         <Searchbar />
-        {/** CART - DARKMODE - LINKS DROPDOWN */}
+        {/** CART - THEME DROPDOWN - LINKS DROPDOWN */}
         <div className="flex gap-4 items-center">
           <CartButton />
           <ThemeDropdown />
+          <LinksDropdown />
         </div>
       </Container>
     </nav>
