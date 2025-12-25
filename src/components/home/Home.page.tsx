@@ -1,7 +1,11 @@
+import HeroSection from "./hero-section/HeroSection.component";
+import FeaturedProductsSection from "./featured-products-section/FeaturedProductsSection.component";
+
 export default function Home() {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <>
+      <HeroSection />
+      <FeaturedProductsSection />
+    </>
   );
 }
