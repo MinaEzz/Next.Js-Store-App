@@ -4,7 +4,7 @@ import SectionTitle from "@/components/common/section-title/SectionTitle.compone
 import { DUMMY_PRODUCTS } from "@/data";
 
 export default function FeaturedProductsSection() {
-  const products = DUMMY_PRODUCTS;
+  const products = DUMMY_PRODUCTS.filter((product) => product.fetured === true);
 
   if (products.length === 0) return <EmptyList />;
 
