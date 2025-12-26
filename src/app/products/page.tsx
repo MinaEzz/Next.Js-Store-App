@@ -1,6 +1,13 @@
 import Products from "@/components/products/Products.page";
-import React from "react";
 
-export default function page() {
-  return <Products />;
+export default async function page({
+  searchParams,
+}: {
+  searchParams: Promise<{ layout?: "grid" | "list"; search?: string }>;
+}) {
+  const { layout, search } = await searchParams;
+  console.log("layout", layout);
+  console.log("search", search);
+
+  return <Products layout={layout} searchValue={search} />;
 }
