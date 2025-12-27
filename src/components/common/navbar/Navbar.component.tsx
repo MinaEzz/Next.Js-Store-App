@@ -4,6 +4,7 @@ import LinksDropdown from "./links-dropdown/LinksDropdown.component";
 import Logo from "./logo/Logo.component";
 import Searchbar from "./searchbar/Searchbar.component";
 import ThemeDropdown from "./theme-dropdown/ThemeDropdown.component";
+import { Suspense } from "react";
 
 export default function Navbar() {
   return (
@@ -12,7 +13,9 @@ export default function Navbar() {
         {/** LOGO */}
         <Logo />
         {/** SEARCHBAR */}
-        <Searchbar />
+        <Suspense>
+          <Searchbar />
+        </Suspense>
         {/** CART - THEME DROPDOWN - LINKS DROPDOWN */}
         <div className="flex gap-4 items-center">
           <CartButton />

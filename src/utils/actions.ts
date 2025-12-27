@@ -16,9 +16,29 @@ export async function fetchFeaturedProducts() {
   }
 }
 
-export async function fetchProducts() {
+export async function fetchProducts({
+  searchValue = "",
+}: {
+  searchValue?: string;
+}) {
   try {
     const products = await prisma.product.findMany({
+      where: {
+        OR: [
+          {
+            name: {
+              contains: searchValue,
+              mode: "insensitive",
+            },
+          },
+          {
+            company: {
+              contains: searchValue,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
       orderBy: {
         createdAt: "desc",
       },
