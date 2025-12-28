@@ -1,6 +1,6 @@
 import { FaStar } from "react-icons/fa";
 
-export default function Rating({ productsId }) {
+export default function Rating({ productsId }: { productsId: string }) {
   const rating = 4.2;
   const count = 25;
 
