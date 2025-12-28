@@ -26,9 +26,7 @@ export default async function Products({
             No products found
           </h5>
         )}
-
         {layout === "grid" && <ProductsGrid products={products} />}
-
         {layout === "list" && <ProductsList products={products} />}
       </div>
     </>

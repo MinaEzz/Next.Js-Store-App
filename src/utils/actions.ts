@@ -1,5 +1,7 @@
 import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
+// FETCH FEATURED PRODUCTS
 export async function fetchFeaturedProducts() {
   try {
     const products = await prisma.product.findMany({
@@ -16,6 +18,7 @@ export async function fetchFeaturedProducts() {
   }
 }
 
+// FETCH ALL PRODUCTS
 export async function fetchProducts({
   searchValue = "",
 }: {
@@ -44,6 +47,24 @@ export async function fetchProducts({
       },
     });
     return products;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
+    throw new Error("Unkown Error Occured.");
+  }
+}
+
+// FETCH PRODUCT BY ID
+export async function fetchSingleProduct(productId: string) {
+  try {
+    const product = await prisma.product.findUnique({
+      where: {
+        id: productId,
+      },
+    });
+    if (!product) redirect("/products");
+    return product;
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(error.message);
