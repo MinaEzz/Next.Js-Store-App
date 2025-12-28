@@ -8,7 +8,7 @@ export default async function Products({
   layout = "grid",
   searchValue = "",
 }: IProductsPageProps) {
-  const products = await fetchProducts();
+  const products = await fetchProducts({ searchValue });
   const productsCount = products.length;
 
   return (
@@ -26,9 +26,7 @@ export default async function Products({
             No products found
           </h5>
         )}
-
         {layout === "grid" && <ProductsGrid products={products} />}
-
         {layout === "list" && <ProductsList products={products} />}
       </div>
     </>
