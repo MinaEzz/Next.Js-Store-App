@@ -1,6 +1,6 @@
 "use client";
-
 import ThemeProvider from "./theme-provider/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function RootProvider({
   children,
@@ -17,6 +17,7 @@ export default function RootProvider({
       >
         {children}
       </ThemeProvider>
+      <Toaster />
     </>
   );
 }
