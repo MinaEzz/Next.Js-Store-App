@@ -16,7 +16,7 @@ export default function Sidebar() {
           <Button
             key={index}
             asChild
-            className="w-full mb-2 font-normal capitalize"
+            className="w-full mb-2 font-normal capitalize justify-start"
             variant={variant}
           >
             <Link href={link.href}>{link.label}</Link>
