@@ -73,3 +73,13 @@ export async function fetchSingleProduct(productId: string) {
     throw new Error("Unkown Error Occured.");
   }
 }
+
+// CREATE PRODUCT
+export async function createProduct(
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> {
+  return {
+    message: "Product Created Successfully",
+  };
+}

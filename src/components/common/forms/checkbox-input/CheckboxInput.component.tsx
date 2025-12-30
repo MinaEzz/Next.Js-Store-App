@@ -7,7 +7,7 @@ export default function CheckboxInput({
   label,
 }: ICheckboxInputProps) {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center gap-2">
       <Checkbox id={name} name={name} defaultChecked={defaultChecked} />
       <label
         htmlFor={name}
