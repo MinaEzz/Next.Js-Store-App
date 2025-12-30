@@ -1,6 +1,7 @@
 "use server";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { getAuthUser } from "./getAuthUser";
 
 // FETCH FEATURED PRODUCTS
 export async function fetchFeaturedProducts() {
@@ -76,10 +77,37 @@ export async function fetchSingleProduct(productId: string) {
 
 // CREATE PRODUCT
 export async function createProduct(
-  prevState: any,
+  _prevState: any,
   formData: FormData
 ): Promise<{ message: string }> {
-  return {
-    message: "Product Created Successfully",
-  };
+  const user = await getAuthUser();
+  try {
+    const name = formData.get("name") as string;
+    const company = formData.get("company") as string;
+    const price = Number(formData.get("price"));
+    const image = formData.get("image") as File;
+    const description = formData.get("description") as string;
+    const featured = Boolean(formData.get("featured") as string);
+    console.log({ name, company, price, image, description, featured });
+    // send the file to upload function that return the url then send the url to prisma and create the product
+
+    await prisma.product.create({
+      data: {
+        name,
+        company,
+        price,
+        image:
+          "https://images.pexels.com/photos/269480/pexels-photo-269480.jpeg",
+        description,
+        featured: featured,
+        clerkId: user.id,
+      },
+    });
+    return { message: "Product Created Successfully." };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { message: error.message };
+    }
+    return { message: "Unkown Error Occured." };
+  }
 }
