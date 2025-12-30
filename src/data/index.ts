@@ -43,6 +43,25 @@ export const NAVIGATION_LINKS = [
     label: "Orders",
     href: "/orders",
   },
+  {
+    label: "Dashboard",
+    href: "/admin/sales",
+  },
+];
+
+export const ADMIN_NAVIGATION_LINKS = [
+  {
+    label: "Sales",
+    href: "/admin/sales",
+  },
+  {
+    label: "My Products",
+    href: "/admin/products",
+  },
+  {
+    label: "Add Product",
+    href: "/admin/products/new",
+  },
 ];
 
 export const DUMMY_PRODUCTS = [
