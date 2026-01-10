@@ -4,10 +4,6 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import type { TActionFunction } from "@/types";
 
-const InitialState = {
-  message: "",
-};
-
 export default function FormContainer({
   action,
   children,
@@ -15,7 +11,9 @@ export default function FormContainer({
   action: TActionFunction;
   children: React.ReactNode;
 }) {
-  const [state, formAction] = useActionState(action, InitialState);
+  const [state, formAction] = useActionState(action, {
+    message: "",
+  });
 
   useEffect(() => {
     if (state.message) {

@@ -1,7 +1,6 @@
 "use client";
 import FormContainer from "@/components/common/forms/form-container/FormContainer.component";
 import FormField from "@/components/common/forms/form-field/FormField.component";
-import { Button } from "@/components/ui/button";
 import { faker } from "@faker-js/faker";
 import { createProduct } from "@/utils/actions";
 import PriceInput from "@/components/common/forms/price-input/PriceInput.component";
@@ -12,7 +11,7 @@ import { SubmitButton } from "@/components/common/forms/buttons/Buttons.componen
 
 export default function CreateProductForm() {
   const randomName = faker.commerce.productName();
-  const randomDescription = faker.commerce.productDescription();
+  const randomDescription = faker.lorem.paragraph({ min: 10, max: 14 });
   const randomCompany = faker.company.name();
 
   return (
