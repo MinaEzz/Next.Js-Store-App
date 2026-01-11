@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { imageSchema, productSchema, validateSchema } from "./schemas";
 import { getAdminUser } from "./getAdminUser";
+import { revalidatePath } from "next/cache";
 
 // FETCH FEATURED PRODUCTS
 export async function fetchFeaturedProducts() {
@@ -121,5 +122,25 @@ export async function fetchAdminProducts() {
       throw new Error(error.message);
     }
     throw new Error("Unkown Error Occured.");
+  }
+}
+
+// DELETE PRODUCT
+export async function deleteProduct(prevState: { productId: string }) {
+  const { productId } = prevState;
+  await getAdminUser();
+  try {
+    await prisma.product.delete({
+      where: {
+        id: productId,
+      },
+    });
+    revalidatePath("/admin/products");
+    return { message: "Product Deleted Successfully." };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { message: error.message };
+    }
+    return { message: "Unkown Error Occured." };
   }
 }
