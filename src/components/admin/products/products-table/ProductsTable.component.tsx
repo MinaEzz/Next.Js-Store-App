@@ -10,6 +10,8 @@ import {
 import { formatCurrency } from "@/utils/format";
 import Link from "next/link";
 import IProductsTableProps from "./ProductsTable.types";
+import { ActionButton } from "@/components/common/forms/buttons/Buttons.component";
+import DeleteProductButton from "./delete-product-button/DeleteProductButton.component";
 
 export default function ProductsTable({
   products,
@@ -39,7 +41,12 @@ export default function ProductsTable({
               </TableCell>
               <TableCell>{product.company}</TableCell>
               <TableCell>{formatCurrency(product.price)}</TableCell>
-              <TableCell className="flex items-center gap-x-2"></TableCell>
+              <TableCell className="flex items-center gap-x-2">
+                <Link href={`/admin/products/${product.id}/edit`}>
+                  <ActionButton actionType="edit" />
+                </Link>
+                <DeleteProductButton proudctId={product.id} />
+              </TableCell>
             </TableRow>
           );
         })}

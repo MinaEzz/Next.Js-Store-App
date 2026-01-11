@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useFormStatus } from "react-dom";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { LuTrash, LuPenLine } from "react-icons/lu";
-import { ISubmitButtonProps } from "./Buttons.types";
+import { IActionButtonProps, ISubmitButtonProps } from "./Buttons.types";
 
 export function SubmitButton({
   className = "",
@@ -29,6 +29,36 @@ export function SubmitButton({
       ) : (
         text
       )}
+    </Button>
+  );
+}
+
+export function ActionButton({
+  className = "",
+  actionType,
+}: IActionButtonProps) {
+  const { pending } = useFormStatus();
+
+  function renderIcon() {
+    switch (actionType) {
+      case "edit":
+        return <LuPenLine className="w-4! h-4!" />;
+      case "delete":
+        return <LuTrash className="w-4! h-4!" />;
+      default:
+        const never: never = actionType;
+        throw new Error(`Invalid action type: ${never}`);
+    }
+  }
+
+  return (
+    <Button
+      type="submit"
+      size={"icon"}
+      variant={"link"}
+      className={cn("p-2 cursor-pointer", className)}
+    >
+      {pending ? <Spinner className="h-4! w-4! animate-spin" /> : renderIcon()}
     </Button>
   );
 }
