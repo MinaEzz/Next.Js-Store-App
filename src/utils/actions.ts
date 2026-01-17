@@ -144,3 +144,33 @@ export async function deleteProduct(prevState: { productId: string }) {
     return { message: "Unkown Error Occured." };
   }
 }
+
+// UPDATE PRODUCT
+export async function updateProduct(prevState: any, formData: FormData) {
+  await getAdminUser();
+  try {
+    const productId = formData.get("id") as string;
+    const rawData = Object.fromEntries(formData);
+    const validatedData = validateSchema(productSchema, rawData);
+    await prisma.product.update({
+      where: {
+        id: productId,
+      },
+      data: {
+        ...validatedData,
+      },
+    });
+    revalidatePath(`/admin/products/${productId}/edit`);
+    return { message: "Product Updated Successfully." };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { message: error.message };
+    }
+    return { message: "Unkown Error Occured." };
+  }
+}
+
+// UPDATE PRODUCT IMAGE
+export async function updateProductImage(prevState: any, formData: FormData) {
+  return { message: "Product Updated Successfully." };
+}
