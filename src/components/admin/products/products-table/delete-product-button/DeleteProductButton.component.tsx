@@ -4,11 +4,14 @@ import { deleteProduct } from "@/utils/actions";
 
 export default function DeleteProductButton({
   proudctId,
+  imagePublicId,
 }: {
   proudctId: string;
+  imagePublicId: string;
 }) {
   const deleteProductAction = deleteProduct.bind(null, {
     productId: proudctId,
+    imagePublicId,
   });
   return (
     <FormContainer action={deleteProductAction}>
