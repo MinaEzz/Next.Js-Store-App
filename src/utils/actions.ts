@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { imageSchema, productSchema, validateSchema } from "./schemas";
 import { getAdminUser } from "./getAdminUser";
 import { revalidatePath } from "next/cache";
+import { uploadImageToCloudinary } from "./uploadImageToCloudinary";
+import { getCloudinaryImagePublicId } from "./getCloudinaryImagePublicId";
+import cloudinary from "@/lib/cloudinary";
 
 // FETCH FEATURED PRODUCTS
 export async function fetchFeaturedProducts() {
@@ -80,7 +83,7 @@ export async function fetchSingleProduct(productId: string) {
 // CREATE PRODUCT
 export async function createProduct(
   _prevState: any,
-  formData: FormData
+  formData: FormData,
 ): Promise<{ message: string }> {
   const user = await getAdminUser();
   try {
@@ -89,12 +92,15 @@ export async function createProduct(
     const validatedData = validateSchema(productSchema, rawData);
     const validateFile = validateSchema(imageSchema, { image: file });
     // send the file to upload function that return the url then send the url to prisma and create the product
+    const imageUrl = await uploadImageToCloudinary(validateFile.image);
+    const imagePublicId = getCloudinaryImagePublicId(imageUrl);
+    console.log("imagePublicId", imagePublicId);
 
     await prisma.product.create({
       data: {
         ...validatedData,
-        image:
-          "https://images.pexels.com/photos/269480/pexels-photo-269480.jpeg",
+        image: imageUrl,
+        imagePublicId: imagePublicId,
         clerkId: user.id,
       },
     });
@@ -126,10 +132,14 @@ export async function fetchAdminProducts() {
 }
 
 // DELETE PRODUCT
-export async function deleteProduct(prevState: { productId: string }) {
-  const { productId } = prevState;
+export async function deleteProduct(prevState: {
+  productId: string;
+  imagePublicId: string;
+}) {
+  const { productId, imagePublicId } = prevState;
   await getAdminUser();
   try {
+    await cloudinary.uploader.destroy(imagePublicId);
     await prisma.product.delete({
       where: {
         id: productId,

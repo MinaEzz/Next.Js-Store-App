@@ -45,7 +45,10 @@ export default function ProductsTable({
                 <Link href={`/admin/products/${product.id}/edit`}>
                   <ActionButton actionType="edit" />
                 </Link>
-                <DeleteProductButton proudctId={product.id} />
+                <DeleteProductButton
+                  proudctId={product.id}
+                  imagePublicId={product.imagePublicId}
+                />
               </TableCell>
             </TableRow>
           );
