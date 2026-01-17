@@ -1,5 +1,4 @@
 import ProductDetails from "@/components/product-details/ProductDetails.page";
-import React from "react";
 
 export default async function page({
   params,
