@@ -91,10 +91,8 @@ export async function createProduct(
     const file = formData.get("image") as File;
     const validatedData = validateSchema(productSchema, rawData);
     const validateFile = validateSchema(imageSchema, { image: file });
-    // send the file to upload function that return the url then send the url to prisma and create the product
     const imageUrl = await uploadImageToCloudinary(validateFile.image);
     const imagePublicId = getCloudinaryImagePublicId(imageUrl);
-    console.log("imagePublicId", imagePublicId);
 
     await prisma.product.create({
       data: {
