@@ -20,6 +20,11 @@ export default async function EditProduct({
           action={updateProductImage}
         >
           <input type="hidden" name="id" value={product.id} />
+          <input
+            type="hidden"
+            name="imagePublicId"
+            value={product.imagePublicId}
+          />
         </UpdateProductImage>
         <EditProductForm product={product} />
       </div>
