@@ -91,10 +91,8 @@ export async function createProduct(
     const file = formData.get("image") as File;
     const validatedData = validateSchema(productSchema, rawData);
     const validateFile = validateSchema(imageSchema, { image: file });
-    // send the file to upload function that return the url then send the url to prisma and create the product
     const imageUrl = await uploadImageToCloudinary(validateFile.image);
     const imagePublicId = getCloudinaryImagePublicId(imageUrl);
-    console.log("imagePublicId", imagePublicId);
 
     await prisma.product.create({
       data: {
@@ -182,5 +180,32 @@ export async function updateProduct(prevState: any, formData: FormData) {
 
 // UPDATE PRODUCT IMAGE
 export async function updateProductImage(prevState: any, formData: FormData) {
-  return { message: "Product Updated Successfully." };
+  await getAdminUser();
+  try {
+    const productId = formData.get("id") as string;
+    const file = formData.get("image") as File;
+    const oldImagePublicId = formData.get("imagePublicId") as string;
+    const validateFile = validateSchema(imageSchema, { image: file });
+    const imageUrl = await uploadImageToCloudinary(validateFile.image);
+    const newImagePublicId = getCloudinaryImagePublicId(imageUrl);
+    cloudinary.uploader.destroy(oldImagePublicId);
+
+    await prisma.product.update({
+      where: {
+        id: productId,
+      },
+      data: {
+        image: imageUrl,
+        imagePublicId: newImagePublicId,
+      },
+    });
+    revalidatePath(`/admin/products/${productId}/edit`);
+
+    return { message: "Product Updated Successfully." };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { message: error.message };
+    }
+    return { message: "Unkown Error Occured." };
+  }
 }
