@@ -26,7 +26,7 @@ export default function DetailsContent({ product }: IDetailsContentProps) {
       <div>
         <div className="flex items-center gap-x-8">
           <h1 className="text-3xl font-bold capitalize">{product.name}</h1>
-          <FavoriteButton prodcutId={product.id} />
+          <FavoriteButton productId={product.id} />
         </div>
         <Rating productsId={product.id} />
 
