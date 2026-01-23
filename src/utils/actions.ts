@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { uploadImageToCloudinary } from "./uploadImageToCloudinary";
 import { getCloudinaryImagePublicId } from "./getCloudinaryImagePublicId";
 import cloudinary from "@/lib/cloudinary";
+import { getAuthUser } from "./getAuthUser";
 
 // FETCH FEATURED PRODUCTS
 export async function fetchFeaturedProducts() {
@@ -154,7 +155,7 @@ export async function deleteProduct(prevState: {
 }
 
 // UPDATE PRODUCT
-export async function updateProduct(prevState: any, formData: FormData) {
+export async function updateProduct(_prevState: any, formData: FormData) {
   await getAdminUser();
   try {
     const productId = formData.get("id") as string;
@@ -179,7 +180,7 @@ export async function updateProduct(prevState: any, formData: FormData) {
 }
 
 // UPDATE PRODUCT IMAGE
-export async function updateProductImage(prevState: any, formData: FormData) {
+export async function updateProductImage(_prevState: any, formData: FormData) {
   await getAdminUser();
   try {
     const productId = formData.get("id") as string;
@@ -208,4 +209,62 @@ export async function updateProductImage(prevState: any, formData: FormData) {
     }
     return { message: "Unkown Error Occured." };
   }
+}
+
+// TOGGLE FAVORITE
+export async function toggleFavorite(prevState: {
+  favoriteId: string | null;
+  productId: string;
+  pathname: string;
+}) {
+  const user = await getAuthUser();
+  const { productId, pathname, favoriteId } = prevState;
+
+  try {
+    if (favoriteId) {
+      await prisma.favorite.delete({
+        where: {
+          id: favoriteId,
+        },
+      });
+    } else {
+      await prisma.favorite.create({
+        data: {
+          productId: productId,
+          clerkId: user.id,
+        },
+      });
+    }
+    revalidatePath(pathname);
+    return { message: `Favorite ${favoriteId ? "Removed" : "Added"}` };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { message: error.message };
+    }
+    return { message: "Unkown Error Occured." };
+  }
+}
+
+// GET FAVORITE PRODUCTS
+export async function getFavoriteProducts() {
+  return { message: "get favorite products clicked" };
+}
+
+// GET FAVORITE PRODUCT ID
+export async function getFavoriteProductId({
+  productId,
+}: {
+  productId: string;
+}) {
+  const user = await getAuthUser();
+  const favorite = await prisma.favorite.findFirst({
+    where: {
+      clerkId: user.id,
+      productId: productId,
+    },
+    select: {
+      id: true,
+    },
+  });
+  return favorite?.id || null;
 }

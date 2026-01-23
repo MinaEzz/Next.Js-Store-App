@@ -1,3 +1,3 @@
 export default interface IFavoriteButtonProps {
-  prodcutId: string;
+  productId: string;
 }

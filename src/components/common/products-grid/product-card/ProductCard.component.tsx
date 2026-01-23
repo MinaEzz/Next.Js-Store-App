@@ -23,7 +23,7 @@ export default function ProductCard({
                 fill
                 sizes="(max-width:768px) 100vw, (max-width:1200) 50vw, 33vw"
                 priority
-                className="w-full h-full rounded object-cover object-center transform group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full rounded transform group-hover:scale-110 transition-transform duration-500"
               />
             </div>
             {/** Product Details */}
@@ -35,7 +35,7 @@ export default function ProductCard({
         </Card>
       </Link>
       <div className="absolute top-7 right-7 z-5">
-        <FavoriteButton prodcutId={productId} />
+        <FavoriteButton productId={productId} />
       </div>
     </article>
   );
